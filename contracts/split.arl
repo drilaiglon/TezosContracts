@@ -1,0 +1,6 @@
+archetype split_basic
+
+entry split() { 
+    transfer (50% * transferred) to tz1X42BVbwjKdfLJX8ohyCeAci8rbYmbVwKq;
+    transfer (50% * transferred) to tz1hygg3RCfSzQvBdHyg7fhW1drCWXHBCFFG
+}

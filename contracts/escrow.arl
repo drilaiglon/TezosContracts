@@ -1,0 +1,23 @@
+archetype escrow
+
+variable seller : address = tz1hygg3RCfSzQvBdHyg7fhW1drCWXHBCFFG
+variable buyer  : address = tz1ciEuzRw5GnwXjNGXbdZTf8QxiRDBqUYp1
+variable amount : tez = 100tz
+
+entry deposit() {
+  called by buyer
+  require {
+    r0: transferred = amount otherwise "INVALID_TRANSFERRED_AMOUNT"
+  }
+}
+
+entry payback(p : nat) {
+  called by seller
+  require {
+    r1: 0 < p <= 100 otherwise "INVALID_PROPORTION_PARAM"
+  }
+  effect {
+    transfer ((p/100)*balance) to buyer;
+    transfer (((100-p)/100)*balance) to seller
+  }
+}
