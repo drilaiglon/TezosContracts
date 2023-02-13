@@ -3,6 +3,6 @@ archetype hello
 
 variable s : string = ""
 
-entry exec() {
-  s := "Hello World!"
+entry exec( o : string ) {
+  s := o
 }

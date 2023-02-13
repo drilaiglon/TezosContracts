@@ -32,9 +32,9 @@ describe('[HELLO] Contract deployment', async () => {
 describe('[HELLO] Call entry', async () => {
   it("Call 'myentry'", async () => {
     const s_before = await hello.get_s()
-    assert(s_before === "")
-    await hello.exec({ as : alice })
+    assert(s_before == "")
+    await hello.exec("hello",{as : alice })
     const s_after = await hello.get_s()
-    assert(s_after === "Hello Archetype World!")
+    assert(s_after == "hello")
   })
 })
