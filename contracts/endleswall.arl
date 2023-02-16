@@ -1,0 +1,28 @@
+archetype endleswall
+
+
+constant owner :address=tz1hygg3RCfSzQvBdHyg7fhW1drCWXHBCFFG
+variable walltext :string = "hello"
+variable counter :nat = 0
+constant MIN_FEE :tez= 0.5tz
+function get_max_msg_length():nat{
+    return (mutez_to_nat(transferred * 60) div 1_000_000)
+
+} 
+
+entry write_mesage( message : string){
+   require {
+    r0: transferred >= MIN_FEE otherwise "INVALID_TRANSFERRED";
+    r1:3 <= length(message) <= get_max_msg_length() otherwise "INVALID_MSG_LENGTH";
+
+   }
+    effect {
+        walltext:= walltext+", "+message + " forever";
+        counter +=1 ;
+        transfer balance to owner     
+    }
+}
+
+
+
+
