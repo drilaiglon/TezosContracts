@@ -1,28 +1,34 @@
 archetype endleswall
 
+constant owner    : address = tz1hygg3RCfSzQvBdHyg7fhW1drCWXHBCFFG
+variable walltext : string  = "hello"
+variable counter  : nat     = 0
+variable char_fee : tez     = 0.05tz
 
-constant owner :address=tz1hygg3RCfSzQvBdHyg7fhW1drCWXHBCFFG
-variable walltext :string = "hello"
-variable counter :nat = 0
-constant MIN_FEE :tez= 0.5tz
-function get_max_msg_length():nat{
-    return (mutez_to_nat(transferred * 60) div 1_000_000)
-
+function get_msg_fee(msg : string) : tez {
+  return (length(msg) * char_fee)
 } 
 
-entry write_mesage( message : string){
-   require {
-    r0: transferred >= MIN_FEE otherwise "INVALID_TRANSFERRED";
-    r1:3 <= length(message) <= get_max_msg_length() otherwise "INVALID_MSG_LENGTH";
-
-   }
-    effect {
-        walltext:= walltext+", "+message + " forever";
-        counter +=1 ;
-        transfer balance to owner     
-    }
+entry write_mesage(message : string){
+  require {
+   r0: transferred >= get_msg_fee(message) otherwise "INVALID_TRANSFERRED";
+  }
+   effect {
+    walltext := walltext + ", " + message + " forever";
+    counter  += 1;
+  }
 }
 
+entry collect() {
+  called by owner
+  effect{
+      transfer balance to owner
+  }
+}
 
-
-
+entry set_char_fee(new:tez) {
+  called by owner
+  effect {
+      char_fee := new
+  }
+}
