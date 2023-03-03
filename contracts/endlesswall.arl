@@ -1,4 +1,4 @@
-archetype endleswall
+archetype endlesswall
 
 constant owner    : address = tz1hygg3RCfSzQvBdHyg7fhW1drCWXHBCFFG
 variable walltext : string  = "hello"
@@ -7,7 +7,7 @@ variable char_fee : tez     = 0.05tz
 
 function get_msg_fee(msg : string) : tez {
   return (length(msg) * char_fee)
-} 
+}
 
 entry write_mesage(message : string){
   require {
